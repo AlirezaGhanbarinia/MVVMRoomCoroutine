@@ -19,6 +19,7 @@ fun View.hideKeyboard() {
 fun AppCompatActivity.replaceFragment(fragment: Fragment, frameId: Int) {
     supportFragmentManager.inTransactionWithHistory { replace(frameId, fragment) }
 }
+
 fun AppCompatActivity.replaceFragmentWithNoHistory(fragment: Fragment, frameId: Int) {
     supportFragmentManager.inTransactionWithoutHistory { replace(frameId, fragment) }
 }
@@ -26,15 +27,17 @@ fun AppCompatActivity.replaceFragmentWithNoHistory(fragment: Fragment, frameId: 
 inline fun FragmentManager.inTransactionWithHistory(func: FragmentTransaction.() -> FragmentTransaction) {
     beginTransaction().func().addToBackStack("Added Fragment").commit()
 }
+
 inline fun FragmentManager.inTransactionWithoutHistory(func: FragmentTransaction.() -> FragmentTransaction) {
     beginTransaction().func().commit()
 }
+
 fun FragmentActivity.replaceFragment(fragment: Fragment, frameId: Int) {
     supportFragmentManager.inTransactionWithHistory { replace(frameId, fragment) }
 }
 
 fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
-    var intent = Intent(this, it)
+    val intent = Intent(this, it)
     intent.putExtras(Bundle().apply(extras))
     startActivity(intent)
 }

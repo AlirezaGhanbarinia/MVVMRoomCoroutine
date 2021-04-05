@@ -14,10 +14,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 @Module
 object DBModule {
 
-  @Provides
-   fun provideStudentDao(@ApplicationContext appContext: Context) : StudentDao {
-      return StudentDB.getInstance(appContext).studentDao
-  }
+    @Provides
+    fun provideStudentDao(@ApplicationContext appContext: Context): StudentDao {
+        return StudentDB.getInstance(appContext).studentDao
+    }
 
     @Provides
     fun provideStudentDBRepository(studentDao: StudentDao) = RoomDBRepository(studentDao)

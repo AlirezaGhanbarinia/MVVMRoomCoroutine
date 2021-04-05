@@ -13,17 +13,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.hilt.room.R
 import com.hilt.room.db.Student
 import com.hilt.room.util.replaceFragment
-import com.hilt.room.util.replaceFragmentWithNoHistory
 import com.hilt.room.viewmodel.StudentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_student_list.*
+
 @AndroidEntryPoint
 class StudentInfoListFragment : Fragment(), LifecycleOwner {
 
-    private var studentInfoListView : View? = null
-    var mContainerId:Int = -1
-    private var studentAdapter : StudentAdapter? = null
-    private val mainViewModel : StudentViewModel by viewModels()
+    private var studentInfoListView: View? = null
+    var mContainerId: Int = -1
+    private var studentAdapter: StudentAdapter? = null
+    private val mainViewModel: StudentViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -35,8 +35,8 @@ class StudentInfoListFragment : Fragment(), LifecycleOwner {
         savedInstanceState: Bundle?
     ): View? {
         studentInfoListView = inflater.inflate(R.layout.fragment_student_list, container, false)
-        mContainerId = container?.id?:-1
-        return  studentInfoListView
+        mContainerId = container?.id ?: -1
+        return studentInfoListView
     }
 
 
@@ -53,28 +53,26 @@ class StudentInfoListFragment : Fragment(), LifecycleOwner {
         super.onResume()
         fetchDataFromViewModel()
     }
-    fun launchAddStudentFragment(){
+
+    private fun launchAddStudentFragment() {
         activity?.replaceFragment(StudentInfoFragment(), mContainerId)
     }
 
-    private fun initAdapter(){
+    private fun initAdapter() {
         studentAdapter = StudentAdapter(arrayListOf())
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = studentAdapter
-
         }
-
     }
 
-    private fun fetchDataFromViewModel(){
+    private fun fetchDataFromViewModel() {
         // viewModel.fetchRoomData()
-        mainViewModel.userFinalList.observe(this,
-            Observer<MutableList<Student>> {
-                    t -> println("Received UserInfo List $t")
-                studentAdapter?.refreshAdapter(t)
-            }
+        mainViewModel.userFinalList.observe(this, Observer<MutableList<Student>> { t ->
+            println("Received UserInfo List $t")
+            studentAdapter?.refreshAdapter(t)
+        }
         )
     }
 }
